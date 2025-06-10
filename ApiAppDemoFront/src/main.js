@@ -5,6 +5,8 @@ import App from './App.vue'
 // import store from './store/index.js'
 import router from './router'
 import ApiService from './utils/api.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap'; 
 
 const app = createApp(App)
 

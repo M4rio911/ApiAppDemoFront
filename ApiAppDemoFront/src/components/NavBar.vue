@@ -1,22 +1,15 @@
 <template>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
+<div class="navbar navbar-expand-lg navbar-dark">
+  <div class="container-fluid py-3">
     <h4 class="pe-4">LIBRARY</h4>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-between align-items-center" id="navbarScroll" v-if="!!isAuth" style="display: flex; flex-wrap: wrap;">
+    <div class="collapse navbar-collapse justify-content-between align-items-center" id="navbarScroll" style="display: flex; flex-wrap: wrap;">
   
       <div class="d-flex flex-wrap align-items-center">
         <button class="nav-link" @click="redirect('/')">HOME</button>
-
-        <template>
-          <button class="nav-link" @click="redirect('/Storage/PackagesToAssign')">HOME</button>
-          <button class="nav-link" @click="redirect('/DictionaryTypes')">BOOKS</button>
-          <button class="nav-link" @click="redirect('/AllPackages')">USERS</button>
-          <button class="nav-link" @click="redirect('/Currencies')">CATEGORIES</button>
-          <button class="nav-link" @click="redirect('/Currencies')">AUTHORS</button>
-        </template>
+        <button class="nav-link" @click="redirect('/Books')">BOOKS</button>
+        <button class="nav-link" @click="redirect('/Users')">USERS</button>
+        <button class="nav-link" @click="redirect('/Categories')">CATEGORIES</button>
+        <button class="nav-link" @click="redirect('/Authors')">AUTHORS</button>
       </div>
 
       <!-- <div class="d-flex align-items-center ms-auto">
@@ -30,7 +23,7 @@
       </div> -->
     </div>
   </div>
-</nav>
+</div>
 
 </template>
 
@@ -70,7 +63,7 @@ h2{
 }
 
 h4{
-  color: rgb(33, 105, 99)
+  color: rgb(185, 130, 11)
 }
 
 .navbar {
@@ -90,20 +83,22 @@ h4{
   color: white !important;
   font-size: 100% !important;
   font-weight: 500 !important;
-  margin: 0 0.5rem !important;
+  margin: 0 0.7rem !important;
 
   border: 2px solid white;
-  border-radius: 20px;
-  padding: 0.4rem 1rem;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  padding: 0.4rem 1.2rem;
   background-color: transparent;
   transition: all 0.3s ease;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .nav-link:hover {
-  background-color: #76ABAE;
+  background-color: #bd8d0a;
   color: #fff;
   transform: translateY(-2px);
+  transform:scale(1.1);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
