@@ -17,7 +17,7 @@ app.mixin({
     mounted() {
       if (!this.$api) {
         const token = localStorage.getItem('token');
-        this.$api = new ApiService(token, notify);
+        this.$api = new ApiService(token);
         }
     }
 });

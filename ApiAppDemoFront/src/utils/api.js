@@ -1,8 +1,8 @@
 export default class ApiService {
-    constructor(token, notify) {
+    constructor(token) {
       this.token = token;
-      this.notify = notify;
-      this.baseUrl = process.env.VUE_APP_API_BASE_URL;
+      // this.baseUrl = process.env.VUE_APP_API_BASE_URL;
+      this.baseUrl = "https://localhost:7221/";
     }
   
     async request(endpoint, method = 'GET', data = null) {
@@ -31,60 +31,10 @@ export default class ApiService {
           ...json,
           status: response.status
         };
-    
-        if (!response.ok) {
-          let message = responseJson.message || response.statusText || 'Unknown error';
-    
-          switch (response.status) {
-            case 400:
-              message = responseJson.message || 'Bad Request';
-              break;
-            case 401:
-              message = 'Unauthorized – please login again.';
-              break;
-            case 403:
-              message = 'Forbidden – you do not have access.';
-              break;
-            case 404:
-              message = 'Not Found – the resource does not exist.';
-              break;
-            case 500:
-              message = 'Internal Server Error – try again later.';
-              break;
-          }
-    
-          if (this.notify) {
-            this.notify({ title: 'Error', message, type: 'error' });
-          } else {
-            throw new Error(message);
-          }
-    
-          return null;
-        }
-    
-        if (responseJson.showMessage === true && responseJson.success === true) {
-          this.notify?.({ message: responseJson.message || 'Success', type: 'success' });
-        }
-        else if(responseJson.success === false){
-          let errorMessage = 'An error occurred';
-
-          if (Array.isArray(responseJson.errors) && responseJson.errors.length > 0) {
-            errorMessage = responseJson.errors.join(', ');
-          } else if (responseJson.message) {
-            errorMessage = responseJson.message;
-          }
-
-          this.notify?.({ message: errorMessage, type: 'error' });
-        }
 
         return responseJson;
-    
       } catch (error) {
-        if (this.notify) {
-          this.notify({ title: 'Connection Error', message: error.message, type: 'error' });
-        } else {
           throw error;
-        }
       }
     }
   

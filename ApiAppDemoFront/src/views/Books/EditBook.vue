@@ -1,8 +1,8 @@
 <template>
   <div class="p-4">
     <router-link class="btn btn-outline-secondary position-absolute top-0 end-0 m-3" :to="`/Books`">X</router-link>
-    <h2 class="text-2xl font-bold mb-4">Add new book</h2>
-    <form @submit.prevent="addBook">
+    <h2 class="text-2xl font-bold mb-4">Edit new book</h2>
+    <form @submit.prevent="editBook">
       <div>
         <label class="block mx-2">Title</label>
         <input v-model="title" class="border p-2 w-full" required />
@@ -26,7 +26,7 @@
           <textarea v-model="description" class="border p-2 w-25" required maxlength="255" ></textarea>
       </div>
 
-      <button type="submit" class="btn btn-outline-success px-4 mt-4">Add Book</button>
+      <button type="submit" class="btn btn-outline-success px-4 mt-4">Save changes</button>
     </form>
   </div>
 </template>
@@ -47,18 +47,19 @@ export default {
   mounted(){
     this.getAuthors();
     this.getCategories();
+    this.getBookData();
   },
   methods: {
-    async addBook() {
+    async editBook() {
 
-      const data = await this.$api.post('Books/addBook', {
+      const data = await this.$api.post('Books/editBook', {
                 title: this.title, 
                 authorId: this.authorId,
                 categoryId: this.categoryId,
                 description: this.description
             });
 
-       alert(`Book added: ${this.title}`);
+       alert(`Book Edited: ${this.title}`);
       this.$router.push("/Books");
     },
     async getAuthors(){
@@ -73,6 +74,22 @@ export default {
       if(data.success)
           this.categories = data.categories || [];
     },
+    async getBookData(){
+      const data = await this.$api.get('Books/getBook',{
+          id: this.$route.params.id
+      });
+
+      if(data.success){
+          var fetchBook = data.book;
+          this.title = fetchBook.title;
+          this.categoryId = fetchBook.categoryId;
+          this.authorId = fetchBook.authorId;
+          this.description = fetchBook.description;
+
+          const date = new Date(fetchBook.birthDate); // lub fetchAuthor.birthDate, jeśli to ta wartość
+          this.selectedDate = date.toISOString().split('T')[0];
+      }
+    }
   },
 };
 </script>

@@ -1,69 +1,47 @@
 <template>
-  <div>
-      <NavBar/>
-
-    <header>
-      
-      <div class="wrapper">
-        <h1 class="text-2xl font-bold">Moja Biblioteka</h1>
-        
-        <nav>
-          <RouterLink to="/">Lista książek</RouterLink>
-          <RouterLink to="/add">Dodaj książkę</RouterLink>
-        </nav>
-      </div>
-    </header>
-    
-    <main class="p-4">
+  <div class="body">
+    <NavBar/>
+    <BaseCard class="baseCard">
       <RouterView />
-    </main>
+    </BaseCard>
   </div>
 </template>
 
 <script>
 import { RouterLink, RouterView } from 'vue-router'
 import NavBar from '@/components/NavBar.vue';
+import BaseCard from './components/BaseCard.vue';
 export default {
   components: {
-    NavBar
+    NavBar,
+    BaseCard
   }
 }
 </script>
 
-<style scoped>
-header {
-  display: flex;
-  align-items: center;
-  background-color: #8b8b8b;
-  padding: 1rem;
-  border-bottom: 1px solid #ddd;
-}
+<style>
+#app{
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  
+  min-height: 100vh;
+  min-width: 100vw;
+  
+  background-color: #292420;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
 
-.logo {
-  margin-right: 1rem;
-}
-
-.wrapper {
   display: flex;
   flex-direction: column;
 }
+</style>
 
-nav {
-  margin-top: 0.5rem;
-}
-
-nav a {
-  margin-right: 1rem;
-  text-decoration: none;
-  color: #2c3e50;
-  font-weight: bold;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-
-main {
-  padding: 2rem;
+<style scoped>
+.baseCard{
+  margin-top: 12vh;
 }
 </style>

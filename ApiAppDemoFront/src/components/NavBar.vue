@@ -7,7 +7,7 @@
       <div class="d-flex flex-wrap align-items-center">
         <button class="nav-link" @click="redirect('/')">HOME</button>
         <button class="nav-link" @click="redirect('/Books')">BOOKS</button>
-        <button class="nav-link" @click="redirect('/Users')">USERS</button>
+        <button class="nav-link" @click="redirect('/Borrowers')">BORROWERS</button>
         <button class="nav-link" @click="redirect('/Categories')">CATEGORIES</button>
         <button class="nav-link" @click="redirect('/Authors')">AUTHORS</button>
       </div>
