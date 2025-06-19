@@ -20,10 +20,11 @@
             <td>{{ borrower.firstName }}</td>
             <td>{{ borrower.lastName }}</td>
             <td>{{ formatDate(borrower.birthDate) }}</td>
-            <td>
+            <td v-if="isAuthenticated">
               <router-link class="me-3 btn btn-outline-secondary" :to="`/Borrowers/edit/${borrower.id}`">Edit</router-link>
               <button size="sm" @click="deleteBorrower(borrower.id)" class="btn btn-outline-danger">Delete</button>
             </td>
+            <td v-else></td>
           </tr>
         </tbody>
       </table> 
@@ -32,16 +33,23 @@
       </div> 
       
     </div>
-    <router-link class="btn btn-outline-success px-3 mt-3" :to="`/Borrowers/add`">+ Add Borrower</router-link>
+    <router-link class="btn btn-outline-success px-3 mt-3" :to="`/Borrowers/add`"  v-if="isAuthenticated">+ Add Borrower</router-link>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
       borrowers: [],
     };
+  },
+  computed: {
+    ...mapGetters('auth', ['UserIsAuthenticated']),
+    isAuthenticated() {
+      return this.UserIsAuthenticated;
+    }
   },
   mounted() {
     this.getBorrowers();

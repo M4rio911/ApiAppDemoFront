@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import { RouterLink, RouterView } from 'vue-router'
 import NavBar from '@/components/NavBar.vue';
 import BaseCard from './components/BaseCard.vue';
 export default {
@@ -20,6 +19,19 @@ export default {
 </script>
 
 <style>
+
+html, body, #app {
+  height: 100%;
+  margin: 0;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100vw;
+}
+
 #app{
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -42,6 +54,7 @@ export default {
 
 <style scoped>
 .baseCard{
+  align-items: center;
   margin-top: 12vh;
 }
 </style>

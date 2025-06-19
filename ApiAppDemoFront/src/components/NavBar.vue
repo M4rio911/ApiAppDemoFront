@@ -2,25 +2,23 @@
 <div class="navbar navbar-expand-lg navbar-dark">
   <div class="container-fluid py-3">
     <h4 class="pe-4">LIBRARY</h4>
-    <div class="collapse navbar-collapse justify-content-between align-items-center" id="navbarScroll" style="display: flex; flex-wrap: wrap;">
-  
-      <div class="d-flex flex-wrap align-items-center">
-        <button class="nav-link" @click="redirect('/')">HOME</button>
-        <button class="nav-link" @click="redirect('/Books')">BOOKS</button>
-        <button class="nav-link" @click="redirect('/Borrowers')">BORROWERS</button>
-        <button class="nav-link" @click="redirect('/Categories')">CATEGORIES</button>
-        <button class="nav-link" @click="redirect('/Authors')">AUTHORS</button>
-      </div>
+    
+    <div class="d-flex flex-wrap align-items-center flex-grow-1">
+      <button class="nav-link" @click="redirect('/')">HOME</button>
+      <button class="nav-link" @click="redirect('/Books')">BOOKS</button>
+      <button class="nav-link" @click="redirect('/Borrowers')">BORROWERS</button>
+      <button class="nav-link" @click="redirect('/Categories')">CATEGORIES</button>
+      <button class="nav-link" @click="redirect('/Authors')">AUTHORS</button>
+    </div>
 
-      <!-- <div class="d-flex align-items-center ms-auto">
-        <h2 class="h4 mb-0">{{ this.userLogin }}</h2>
-        <button class="btn btn-sm btn-outline-danger ms-3" @click="logout">LOGOUT</button>
+    <div class="d-flex align-items-center ms-auto">
+      <div v-if="!!isAuth">
+        <span class="h6 mb-0 me-3">Logged as: <b>{{ userLogin }}</b></span>
+        <button class="btn btn-sm btn-outline-danger" @click="logout">LOGOUT</button>
       </div>
-      <div class="collapse navbar-collapse" id="navbarScroll" v-else>
-        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-          <button class="nav-link" @click="redirect('/Login')">LOGIN</button>
-        </ul>
-      </div> -->
+      <div v-else>
+        <button class="btn btn-md btn-outline-light" @click="redirect('/Login')">LOGIN</button>
+      </div>
     </div>
   </div>
 </div>
@@ -29,25 +27,22 @@
 
 <script>
 export default {
-  // computed: {
-  //   isAuth() {
-  //     return this.$store.getters['auth/UserIsAuthenticated'];
-  //   },
-  //   userLogin() {
-  //     return this.$store.getters['auth/UserLogin'];
-  //   },
-  //   userRole() {
-  //     return this.$store.getters['auth/UserRole'] ?? [];
-  //   },
-  // },
+  computed: {
+    isAuth() {
+      return this.$store.getters['auth/UserIsAuthenticated'];
+    },
+    userLogin() {
+      return this.$store.getters['auth/UserLogin'];
+    }
+  },
   methods: {
     redirect(to) {
       this.$router.push(to);
     },
-    // logout() {
-    //   this.$store.dispatch('auth/Logout');
-    //   this.$router.push('/Login');
-    // }
+    logout() {
+      this.$store.dispatch('auth/Logout');
+      this.$router.push('/Login');
+    }
   }
 };
 </script>

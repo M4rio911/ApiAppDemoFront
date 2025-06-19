@@ -16,10 +16,11 @@
           <tr v-for="(category, index) in categories" :key="category.id">
             <th scope="row">{{ index + 1 }}</th>
             <td>{{ category.name }}</td>
-            <td>
+            <td v-if="isAuthenticated">
               <router-link class="me-3 btn btn-outline-secondary" :to="`/categories/edit/${category.id}`">Edit</router-link>
               <button size="sm" @click="deleteCategory(category.id)" class="btn btn-outline-danger">Delete</button>
             </td>
+            <td v-else></td>
           </tr>
         </tbody>
       </table> 
@@ -28,16 +29,23 @@
       </div> 
       
     </div>
-    <router-link class="btn btn-outline-success px-3 mt-3" :to="`/categories/add`">+ Add category</router-link>
+    <router-link class="btn btn-outline-success px-3 mt-3" :to="`/categories/add`" v-if="isAuthenticated">+ Add category</router-link>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
       categories: [],
     };
+  },
+  computed: {
+    ...mapGetters('auth', ['UserIsAuthenticated']),
+    isAuthenticated() {
+      return this.UserIsAuthenticated;
+    }
   },
   mounted() {
     this.getCategories();

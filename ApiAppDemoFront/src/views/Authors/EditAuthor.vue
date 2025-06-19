@@ -40,7 +40,7 @@ export default {
   methods: {
     async editAuthor() {
 
-        const response = await this.$api.post('Authors/editAuthor', {
+        const response = this.$api.post('Authors/editAuthor', {
               authorId: this.id,
               firstName: this.firstName,
               lastName: this.lastName,

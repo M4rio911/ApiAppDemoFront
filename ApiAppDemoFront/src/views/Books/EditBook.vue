@@ -85,9 +85,6 @@ export default {
           this.categoryId = fetchBook.categoryId;
           this.authorId = fetchBook.authorId;
           this.description = fetchBook.description;
-
-          const date = new Date(fetchBook.birthDate); // lub fetchAuthor.birthDate, jeśli to ta wartość
-          this.selectedDate = date.toISOString().split('T')[0];
       }
     }
   },

@@ -36,13 +36,14 @@
             <td>{{ book.title }}</td>
             <td>{{ findPersonById(authors, book.authorId) ?? "" }}</td>
             <td>{{ findPersonById(borrowers, book.borrowerId) ?? "" }}</td>
-            <td>
+            <td v-if="isAuthenticated">
               <router-link class="me-3 btn btn-outline-secondary" :to="`/Books/edit/${book.id}`">Edit</router-link>
               <button size="sm" @click="deleteBook(book.id)" class="btn btn-outline-danger me-3">Delete</button>
 
               <button v-if="book.isBorrowed" @click="returnBook(book.id)" class="btn btn-outline-primary">Return Book</button>
               <router-link v-else class="btn btn-outline-primary" :to="`/Books/borrow/${book.id}`">Borrow book</router-link>
             </td>
+            <td v-else></td>
           </tr>
         </tbody>
       </table>
@@ -51,11 +52,12 @@
       </div> 
       
     </div>
-    <router-link class="btn btn-outline-success px-3 mt-3" :to="`/Books/add`">+ Add book</router-link>
+    <router-link class="btn btn-outline-success px-3 mt-3" :to="`/Books/add`" v-if="isAuthenticated">+ Add book</router-link>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   name: "BookList",
   data() {
@@ -69,6 +71,47 @@ export default {
       sortKey: '',
       sortAsc: true
     };
+  },
+  computed: {
+    ...mapGetters('auth', ['UserIsAuthenticated']),
+    isAuthenticated() {
+      return this.UserIsAuthenticated;
+    },
+    filteredBooks() {
+      return this.showOnlyAvailable
+        ? this.books.filter(book => !book.isBorrowed)
+        : this.books;
+    },
+    sortedBooks() {
+      let books = [...this.filteredBooks];
+
+      if (this.sortKey === 'author') {
+        books.sort((a, b) => {
+          const nameA = this.findPersonById(this.authors, a.authorId) || '';
+          const nameB = this.findPersonById(this.authors, b.authorId) || '';
+          return this.sortAsc ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+        });
+      } else if (this.sortKey === 'borrower') {
+        books.sort((a, b) => {
+          const nameA = this.findPersonById(this.borrowers, a.borrowerId) || '';
+          const nameB = this.findPersonById(this.borrowers, b.borrowerId) || '';
+          return this.sortAsc ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+        });
+      } else if (this.sortKey) {
+        books.sort((a, b) => {
+          const valA = a[this.sortKey];
+          const valB = b[this.sortKey];
+
+          if (typeof valA === 'string') {
+            return this.sortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+          } else {
+            return this.sortAsc ? valA - valB : valB - valA;
+          }
+        });
+      }
+
+      return books;
+    }
   },
   mounted() {
     this.getBooks();
@@ -123,43 +166,6 @@ export default {
           this.sortAsc = true;
         }
       }
-  },
-  computed: {
-    filteredBooks() {
-      return this.showOnlyAvailable
-        ? this.books.filter(book => !book.isBorrowed)
-        : this.books;
-    },
-    sortedBooks() {
-      let books = [...this.filteredBooks];
-
-      if (this.sortKey === 'author') {
-        books.sort((a, b) => {
-          const nameA = this.findPersonById(this.authors, a.authorId) || '';
-          const nameB = this.findPersonById(this.authors, b.authorId) || '';
-          return this.sortAsc ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
-        });
-      } else if (this.sortKey === 'borrower') {
-        books.sort((a, b) => {
-          const nameA = this.findPersonById(this.borrowers, a.borrowerId) || '';
-          const nameB = this.findPersonById(this.borrowers, b.borrowerId) || '';
-          return this.sortAsc ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
-        });
-      } else if (this.sortKey) {
-        books.sort((a, b) => {
-          const valA = a[this.sortKey];
-          const valB = b[this.sortKey];
-
-          if (typeof valA === 'string') {
-            return this.sortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
-          } else {
-            return this.sortAsc ? valA - valB : valB - valA;
-          }
-        });
-      }
-
-      return books;
-    }
   },
 };
 </script>
