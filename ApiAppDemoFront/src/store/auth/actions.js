@@ -12,7 +12,7 @@ export default {
     if (!token) return;
 
     try {
-        const url = "https://localhost:7221/";
+        const url = import.meta.env.VITE_API_BASE_URL;
         const response = await fetch(url + 'Auth/me', {
             method: "GET",
             headers: {

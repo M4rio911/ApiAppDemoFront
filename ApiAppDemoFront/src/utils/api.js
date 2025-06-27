@@ -1,8 +1,7 @@
 export default class ApiService {
     constructor(token) {
       this.token = token;
-      // this.baseUrl = process.env.VUE_APP_API_BASE_URL;
-      this.baseUrl = "https://localhost:7221/";
+      this.baseUrl = import.meta.env.VITE_API_BASE_URL;
     }
   
     async request(endpoint, method = 'GET', data = null) {
